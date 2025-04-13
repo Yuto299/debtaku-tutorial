@@ -10,9 +10,14 @@ buttons.forEach((button) => {
     } else if (value === '%') {
       display.value = parseFloat(display.value) / 100; //パーセント計算
     } else if (value === '=') {
-      display.value = eval(display.value); //=ボタンを押したら計算する
+      try {
+        const formula = display.value.replace(/÷/g, '/'); //÷を/に置き換える
+        display.value = eval(formula);
+      } catch (error) {
+        display.value = 'Error'; //計算できなかったらエラー表示
+      }
     } else {
-      display.value += value; //その他のボタンはそのまま表示、押したボタンをくっつけるイメージ
+      display.value += value; //それ以外は表示に追加する
     }
   });
 });
